@@ -1,3 +1,4 @@
+require_relative 'firebase/types/timestamp'
 require_relative 'firebase/dataset'
 require_relative 'firebase/gateway'
 require_relative 'firebase/relation'
