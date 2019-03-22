@@ -1,8 +1,11 @@
+require_relative 'struct'
+
 module ROM
   module Firebase
     module Repository
       def self.included(base)
         base.commands :create, :delete, :update
+        base.struct_namespace ROM::Firebase::Struct
       end
 
       def all
