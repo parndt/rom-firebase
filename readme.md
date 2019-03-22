@@ -28,8 +28,7 @@ Notes:
 This configuration can be passed to a repository class which mirrors a schema inside your Firebase Realtime Database's key value store, e.g. let's say we are storing Pages, here is a working example. Note the use of `key` as the primary key.
 
 ```ruby
-class PageRepository < ROM::Repository[:pages]
-  include ROM::Firebase::Repository
+class PageRepository < ROM::Firebase::Repository[:pages]
 end
 
 class Pages < ROM::Relation[:firebase]

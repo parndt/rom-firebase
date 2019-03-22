@@ -1,19 +1,14 @@
-require_relative 'struct'
-
 module ROM
   module Firebase
-    module Repository
-      def self.included(base)
-        base.commands :create, :delete, :update
-        base.struct_namespace ROM::Firebase::Struct
-      end
+    class Repository < ROM::Repository::Root
+      commands :create, :delete, :update
 
       def all
-        send(root.name.to_s)
+        root.to_a
       end
 
       def count
-        all.to_a.size
+        all.size
       end
 
       def create(params)
@@ -25,7 +20,7 @@ module ROM
       end
 
       def find(primary_key)
-        all.by_pk(primary_key)
+        root.by_pk(primary_key)
       end
 
       def first
@@ -33,15 +28,15 @@ module ROM
       end
 
       def last
-        all.to_a.last
+        all.last
       end
 
       def limit(count)
-        all.limit(count)
+        root.limit(count)
       end
 
       def where(&block)
-        all.to_a.select(&block)
+        all.select(&block)
       end
 
       def update_all(keys, params)
