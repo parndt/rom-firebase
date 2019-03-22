@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rom/http/relation'
 
 module ROM
@@ -5,7 +7,7 @@ module ROM
     class Relation < ROM::HTTP::Relation
       adapter :firebase
 
-      def limit(count, key: DEFAULT_KEY)
+      def limit(count, key: DEFAULT_ORDER_BY)
         with_params(order_by(key).merge(limitToLast: count))
       end
 
@@ -15,7 +17,8 @@ module ROM
 
       private
 
-      DEFAULT_KEY = 'createdAt'.freeze
+      DEFAULT_ORDER_BY = 'createdAt'
+      private_constant :DEFAULT_ORDER_BY
 
       def order_by(key)
         { orderBy: %("#{key}") }
