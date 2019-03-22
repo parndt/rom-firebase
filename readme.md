@@ -34,11 +34,10 @@ end
 
 class Pages < ROM::Relation[:firebase]
   schema do
-    attribute :createdAt, Types::Strict::Integer
+    attribute :createdAt, ROM::Firebase::Types::Timestamp
     attribute :title, Types::Strict::String
     attribute :description, Types::Strict::String
-    attribute :key, Types::Strict::String
-    primary_key :key
+    attribute :key, Types::Strict::String.meta(primary_key: true)
   end
 end
 
