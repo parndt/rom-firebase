@@ -1,7 +1,7 @@
 module ROM
   module Firebase
     module Repository
-      def self.prepended(base)
+      def self.included(base)
         base.commands :create, :delete, :update
       end
 

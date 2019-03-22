@@ -29,7 +29,7 @@ This configuration can be passed to a repository class which mirrors a schema in
 
 ```ruby
 class PageRepository < ROM::Repository[:pages]
-  prepend ROM::Firebase::Repository
+  include ROM::Firebase::Repository
 end
 
 class Pages < ROM::Relation[:firebase]
@@ -40,7 +40,6 @@ class Pages < ROM::Relation[:firebase]
     attribute :key, Types::Strict::String
     primary_key :key
   end
-  auto_struct true
 end
 
 configuration.register_relation(Pages)
