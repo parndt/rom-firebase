@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ROM
   module Firebase
     class ResponseHandler
@@ -13,7 +15,7 @@ module ROM
       def call
         return create_response if options[:request_method] == :post
         return [path_response] unless path.nil? || path.empty?
-        return [] if options[:request_method] == :delete # delete always succeeds
+        return [] if options[:request_method] == :delete # always succeeds
 
         collection_response
       end

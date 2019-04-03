@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ROM
   module Firebase
     class Repository < ROM::Repository::Root
@@ -7,20 +9,14 @@ module ROM
         root.to_a
       end
 
+      def by_pk(primary_key)
+        root.by_pk(primary_key)
+      end
+      alias find by_pk
+      alias by_key by_pk
+
       def count
         all.size
-      end
-
-      def create(params)
-        find(super.key).one
-      end
-
-      def delete_all(keys)
-        execute_threaded(keys, &method(:delete))
-      end
-
-      def find(primary_key)
-        root.by_pk(primary_key)
       end
 
       def first
@@ -36,19 +32,7 @@ module ROM
       end
 
       def where(&block)
-        all.select(&block)
-      end
-
-      def update_all(keys, params)
-        execute_threaded(keys) { |key| update(key, params) }
-      end
-
-      private
-
-      def execute_threaded(list, &_block)
-        list.each_with_object([]) do |item, threads|
-          threads << Thread.new { yield item }
-        end.each(&:join).map(&:value)
+        root.where(&block)
       end
     end
   end

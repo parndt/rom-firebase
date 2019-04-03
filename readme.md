@@ -7,7 +7,7 @@ This project builds on the excellent [rom-http](https://github.com/rom-rb/rom-ht
 To start using this, create a `ROM::Configuration` like so:
 
 ```ruby
-require 'rom-firebase'
+require 'rom/firebase'
 
 configuration = ROM::Configuration.new(
   :firebase,
@@ -33,7 +33,7 @@ end
 
 class Pages < ROM::Relation[:firebase]
   schema do
-    attribute :createdAt, ROM::Firebase::Types::Timestamp
+    attribute :createdAt, ::ROM::Firebase::Types::Timestamp
     attribute :title, Types::Strict::String
     attribute :description, Types::Strict::String
     attribute :key, Types::Strict::String.meta(primary_key: true)
@@ -49,7 +49,7 @@ Now you can query it:
 
 ```ruby
 page = repo.create(
-  createdAt: Time.now.to_i * 1000, # Firebase stores in milliseconds
+  createdAt: ::Firebase::ServerValue::TIMESTAMP,
   title: 'Hello World',
   description: 'A wild page appears'
 )
@@ -70,16 +70,30 @@ repo.where { |page| page.title == 'Hello World' }
 => [#<ROM::Struct::Page createdAt="1552999123000" title="Hello World" description="A wild page appears" key="-LaKxW4D8LTpwIWN3N9J">]
 ```
 
-To update it, call update passing the key and a hash of the attributes to change:
+To update it, use a ROM changeset:
 
 ```ruby
-repo.update(page.key, description: 'A wild page is updated')
-=> [#<ROM::Struct::Page createdAt="1552999123000" title="Hello World" description="A wild page is updated " key="-LaKxW4D8LTpwIWN3N9J">]
+repo.by_pk(page.key).changeset(:update, description: 'A wild page is updated').commit
+=> [#<ROM::Struct::Page createdAt="1552999123000" title="Hello World" description="A wild page is updated" key="-LaKxW4D8LTpwIWN3N9J">]
 ```
 
 To delete our page is simple:
 
 ```ruby
-repo.delete(page.key)
+repo.by_pk(page.key).delete
 => nil
+```
+
+You can't currently delete multiple records at once through relations, but there
+is a workaround on the repository level:
+
+```
+keys = ["-LaKxW4D8LTpwIWN3N9J", "-LaKxW4D8LTpwIWN3N9K"]
+repo.delete(keys)
+```
+
+So, for example, if you wanted to delete the last 2 entries you could:
+
+```
+repo.delete(repo.limit(2).to_a.map(&:key))
 ```

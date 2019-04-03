@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'rom'
 require_relative 'firebase/commands/create'
 require_relative 'firebase/commands/delete'
 require_relative 'firebase/commands/update'

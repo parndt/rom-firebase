@@ -15,6 +15,10 @@ module ROM
         with_path(CGI.escape(primary_key))
       end
 
+      def where(&block)
+        to_a.select(&block)
+      end
+
       private
 
       DEFAULT_ORDER_BY = 'createdAt'

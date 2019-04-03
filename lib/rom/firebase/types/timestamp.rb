@@ -6,8 +6,12 @@ module ROM
   module Firebase
     module Types
       Timestamp = ::ROM::Types::Strict::Hash
-                  .schema('.sv' => ::ROM::Types::Strict::String)
-                  .default(::Firebase::ServerValue::TIMESTAMP.freeze)
+                  .schema(
+                    ::Firebase::ServerValue::TIMESTAMP.keys.first =>
+                    ::ROM::Types::Strict::String.constrained(
+                      format: ::Firebase::ServerValue::TIMESTAMP.values.first
+                    )
+                  )
                   .meta(read: ::ROM::Types::Strict::Integer)
     end
   end
