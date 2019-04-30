@@ -12,7 +12,7 @@ module ROM
                       format: ::Firebase::ServerValue::TIMESTAMP.values.first
                     )
                   )
-                  .meta(read: ::ROM::Types::Strict::Integer)
+                  .meta(read: ::ROM::Types::Integer.default(nil))
     end
   end
 end
