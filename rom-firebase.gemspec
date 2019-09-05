@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'firebase', '~> 0.2.8'
   s.add_runtime_dependency 'rom-http', '~> 0.8.0'
 
-  s.required_ruby_version = '>= 2.6.1'
+  s.required_ruby_version = '>= 2.5.3'
 
   s.cert_chain = [File.expand_path('certs/parndt.pem', __dir__)]
 
