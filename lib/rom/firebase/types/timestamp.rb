@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'firebase/server_value'
+require_relative '../server_value'
 
 module ROM
   module Firebase
